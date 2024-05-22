@@ -35,14 +35,13 @@ class Material(http.Controller):
             if not name or not material_type or not buy_price or not supplier_id or not code:
                 raise BadRequest('Missing required fields')
 
-            # i wanna validate the material just Fabric, Jeans, Cotton
             if material_type not in ['Fabric', 'Jeans', 'Cotton']:
-                return BadRequest('Invalid material type')
+                raise BadRequest('Invalid material type')
 
             material = request.env['material.material'].sudo().browse(id)
             
             if not material:
-                return NotFound('Material not found')
+                raise NotFound('Material not found')
 
             if buy_price < 100 :
                 raise BadRequest('Buy price less than 100')
@@ -99,7 +98,6 @@ class Material(http.Controller):
             if not name or not material_type or not buy_price or not supplier_id or not code:
                 raise BadRequest('Missing required fields')
 
-            # i wanna validate the material just Fabric, Jeans, Cotton
             if material_type not in ['Fabric', 'Jeans', 'Cotton']:
                 raise BadRequest ('Invalid material type')
 
@@ -114,7 +112,6 @@ class Material(http.Controller):
                 'code': code
             })
 
-            # Return the created material record
             return {'code': 201, 'message': 'Material created successfully'}
 
         
